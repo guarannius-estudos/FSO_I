@@ -8,31 +8,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.univille.fso.entity.Genre;
-import com.univille.fso.repository.GenreRepository;
+import com.univille.fso.entity.User;
+import com.univille.fso.repository.UserRepository;
 
 @Service
-public class GenreService {
+public class UserService {
 
     @Autowired
-    private GenreRepository repository;
+    private UserRepository repository;
 
-    public Optional<Genre> findById(long id) {
+    public Optional<User> findById(long id) {
         return repository.findById(id);
     }
 
-    public List<Genre> findAll() {
+    public List<User> findAll() {
         return repository.findAll(Sort.by("name"));
     }
 
-    public void save(Genre genre) {
-        if(Strings.isBlank(genre.getName())) {
+    public void save(User user) {
+        if(Strings.isBlank(user.getName())) {
             throw new RuntimeException("Nome não informado.");
         }
-        repository.save(genre);
+        repository.save(user);
     }
 
-    public void delete(Genre genre) {
-        repository.delete(genre);
+    public void delete(User user) {
+        repository.delete(user);
     }
 }

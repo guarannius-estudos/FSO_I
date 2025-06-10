@@ -1,5 +1,9 @@
 package com.univille.fso.repository;
 
-public class AgeRangeRepository {
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.univille.fso.entity.AgeRange;
+
+public interface AgeRangeRepository extends JpaRepository<AgeRange, Long> {
+
 }
