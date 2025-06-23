@@ -57,11 +57,11 @@ public class GameController {
     public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         var opt = service.findById(id);
-        if (opt.isPresent()) {
+        if(opt.isPresent()) {
             try {
                 service.delete(opt.get());
                 mv.setViewName("redirect:/game");
-            } catch (DataIntegrityViolationException e) {
+            } catch(DataIntegrityViolationException e) {
                 mv.addObject("error", "Não é possível excluir este jogo porque ele está sendo utilizada em outros registros.");
                 mv.addObject("game", opt.get());
                 mv.setViewName("updateGame");
@@ -78,7 +78,7 @@ public class GameController {
         try {
             service.save(game);
             return new ModelAndView("redirect:/game");
-        } catch (Exception e) {
+        } catch(Exception e) {
             var mv = new ModelAndView("addGame");
             mv.addObject("game", game);
             mv.addObject("error", e.getMessage());
