@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Faixa Etária</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/882px-Epic_Games_logo.svg.png">
+    <link rel="stylesheet" href="/css/addOrUpdate.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Faixa Etária</h1>
+        <form th:action="@{/ageRange/save}" th:object="${ageRange}" method="post">
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <input readonly type="number" th:field="*{id}">
+            </div>
+            <div class="form-group">
+                <label for="ageR">Faixa Etária:</label>
+                <input type="text" th:field="*{ageR}">
+            </div>
+            <div class="form-group">
+                <button type="submit">Salvar</button>
+            </div>
+            <div class="form-group">
+                <a class="buttonLink" th:href="@{/ageRange/{id}/delete(id=${ageRange.id})}" onclick="return confirm('Tem certeza de que deseja excluir essa faixa etária?');">Excluir</a>
+            </div>
+            <div class="form-group">
+                <a class="buttonLink" th:href="@{/ageRange}">Voltar</a>
+            </div>
+        </form>
+        <p th:if="${error != null}" th:text="${error}"></p>
+        <br>
+    </div>
+</body>
+</html>

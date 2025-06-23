@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #202020;
+    color: #ffffff;
+    line-height: 1.5;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #000000;
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+}
+
+.search-container {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu-item {
+    font-size: 24px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.addButton {
+    color: white;
+    text-decoration: none;
+    background-color: #858585;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+  
+.addButton:hover {
+    background-color: #696969;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+.game-section {
+    margin-top: 20px;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.game-card {
+    background-color: #000000;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 2px 5px #0000001a;
+    transition: transform 0.3s ease;
+}
+
+.game-image img {
+    width: 100%;
+    height: 132px;
+    object-fit: cover;
+}
+
+.game-info {
+    padding: 10px;
+    color: white;
+}
+
+.edit-link {
+    display: inline-block;
+    background-color: #858585;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.edit-link:hover {
+    background-color: #696969;
+}
+
+.game-card:hover {
+    transform: translateY(-10px);
+}
+
+.no-games {
+    text-align: center;
+    color: #ccc;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+button {
+    width: 5%;
+    padding: 12px;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+#search-btn img {
+    display: flex;
+    width: 55%;
+    height: auto;
+    max-width: 30px;
+    min-width: 20px;
+}
+
+@media (max-width: 768px) {
+    .game-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .game-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}

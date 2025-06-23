@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/882px-Epic_Games_logo.svg.png">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/882px-Epic_Games_logo.svg.png">
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Pesquisar jogos..." id="search">
+        </div>
+        <div>
+            <button id="search-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/1890px-Vector_search_icon.svg.png">
+            </button>
+        </div>
+        <div class="menu">
+            <a class="addButton" th:href="@{/game}">Jogos</a>
+            <a class="addButton" th:href="@{/developer}">Desenvolvedoras</a>
+            <a class="addButton" th:href="@{/genre}">Gêneros</a>
+            <a class="addButton" th:href="@{/ageRange}">Faixa Etárias</a>
+            <a class="addButton" href="/logout">Sair</a>
+        </div>
+    </header>
+    <main>
+        <div class="game-section">
+            <a class="addButton" th:href="@{/game/add}">Novo Jogo</a>
+            <div class="game-grid">
+                <div th:each="e : ${list}" class="game-card">
+                    <div class="game-image">
+                        <img th:src="${e.image != null and !#strings.isEmpty(e.image) ? e.image : 'https://saogabriel.asga.org.br/wp-content/uploads/2024/12/sem-foto.png'}" alt="Imagem do Jogo">
+                    </div>
+                    <div class="game-info">
+                        <h3 th:text="${e.name}">Nome do Jogo</h3>
+                        <h4 th:text="${e.developer.name}">Nome do Desenvolvedor</h4>
+                        <h4 th:text="${e.value}">Valor</h4>
+                        <a th:href="@{/game/{id}(id=${e.id})}" class="edit-link">Editar</a>
+                    </div>
+                </div>
+            </div>
+            <p th:unless="${list.size()} > 0">Não há jogos cadastrados.</p>
+        </div>
+    </main>
+    <script src="/js/search.js"></script>
+</body>
+</html>

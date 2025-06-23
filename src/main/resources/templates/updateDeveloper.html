@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Desenvolvedora</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/882px-Epic_Games_logo.svg.png">
+    <link rel="stylesheet" href="/css/addOrUpdate.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Desenvolvedora</h1>
+        <form th:action="@{/developer/save}" th:object="${developer}" method="post">
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <input readonly type="number" th:field="*{id}">
+            </div>
+            <div class="form-group">
+                <label for="name">Nome da Desenvolvedora:</label>
+                <input type="text" th:field="*{name}">
+            </div>
+            <div class="form-group">
+                <label for="nationality">País:</label>
+                <input type="text" th:field="*{nationality}">
+            </div>
+            <div class="form-group">
+                <button type="submit">Salvar</button>
+            </div>
+            <div class="form-group">
+                <a class="buttonLink" th:href="@{/developer/{id}/delete(id=${developer.id})}" onclick="return confirm('Tem certeza de que deseja excluir essa desenvolvedora?');">Excluir</a>
+            </div>
+            <div class="form-group">
+                <a class="buttonLink" th:href="@{/developer}">Voltar</a>
+            </div>
+        </form>
+        <p th:if="${error != null}" th:text="${error}"></p>
+        <br>
+    </div>
+</body>
+</html>

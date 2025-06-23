@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/882px-Epic_Games_logo.svg.png">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/882px-Epic_Games_logo.svg.png">
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Pesquisar jogos..." id="search">
+        </div>
+        <div>
+            <button id="search-btn">
+                <Img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/1890px-Vector_search_icon.svg.png">
+            </button>
+        </div>
+        <div class="menu">
+            <a class="addButton" th:href="@{/login}">Login</a>
+            <a class="addButton" th:href="@{/user/add}">Cadastrar</a>
+        </div>
+    </header>
+    <main>
+        <div class="game-section">
+            <div class="game-grid">
+                <div th:each="e : ${list}" class="game-card">
+                    <div class="game-image">
+                        <img th:src="${e.image != null and !#strings.isEmpty(e.image) ? e.image : 'https://saogabriel.asga.org.br/wp-content/uploads/2024/12/sem-foto.png'}" alt="Imagem do Jogo">
+                    </div>
+                    <div class="game-info">
+                        <h3 th:text="${e.name}">Nome do Jogo</h3>
+                        <h4 th:text="${e.developer.name}">Nome da Desenvolvedora</h4>
+                        <h4 th:text="${e.value}">Valor</h4>
+                        <p th:unless="${list.size()} > 0">Não há jogos cadastrados.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/js/search.js"></script>
+</body>
+</html>
