@@ -45,5 +45,7 @@ public class Game {
 
     private double value;
 
+    private double valueUSD;
+
     private String image;
 }

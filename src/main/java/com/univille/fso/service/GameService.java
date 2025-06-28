@@ -17,6 +17,12 @@ public class GameService {
     @Autowired
     private GameRepository repository;
 
+    private static final double CONVERSION_RATE = 0.20;
+
+    public double convertToUSD(double value) {
+        return value * CONVERSION_RATE;
+    }
+
     public Optional<Game> findById(long id) {
         return repository.findById(id);
     }

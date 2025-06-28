@@ -9,8 +9,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Cadastro de Usuário</h1>
-        <form th:action="@{/user/save}" th:object="${user}" method="post">
+        <h1>Editar Perfil</h1>
+        <form th:action="@{/user/update}" th:object="${user}" method="post">
             <div class="form-group">
                 <label for="id">ID:</label>
                 <input readonly type="number" th:field="*{id}">
@@ -38,7 +38,7 @@
                 <a class="buttonLink" th:href="@{/user/{id}/delete(id=${user.id})}" onclick="return confirm('Tem certeza de que deseja excluir esse usuário?');">Excluir</a>
             </div>
             <div class="form-group">
-                <a class="buttonLink" th:href="@{/user}">Voltar</a>
+                <a class="buttonLink" th:href="@{/game}">Voltar</a>
             </div>
         </form>
         <p th:if="${error != null}" th:text="${error}"></p>

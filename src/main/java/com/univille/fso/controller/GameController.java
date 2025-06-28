@@ -3,7 +3,6 @@ package com.univille.fso.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +52,7 @@ public class GameController {
         return new ModelAndView("redirect:/game");
     }
 
-    @DeleteMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         var opt = service.findById(id);
@@ -68,7 +67,7 @@ public class GameController {
             }
         } else {
             mv.addObject("error", "Jogo não encontrado.");
-            mv.setViewName("updateGame");
+            mv.setViewName("games");
         }
         return mv;
     }
@@ -76,6 +75,8 @@ public class GameController {
     @PostMapping("/save")
     public ModelAndView insert(@ModelAttribute("game") Game game) {
         try {
+            double valueUSD = service.convertToUSD(game.getValue());
+            game.setValueUSD(valueUSD);
             service.save(game);
             return new ModelAndView("redirect:/game");
         } catch(Exception e) {

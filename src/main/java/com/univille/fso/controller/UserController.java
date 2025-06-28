@@ -2,9 +2,10 @@ package com.univille.fso.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import com.univille.fso.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserService service;
@@ -44,25 +45,27 @@ public class UserController {
     }
 
     @GetMapping
-    @RequestMapping("/{id}")
-    public ModelAndView update(@PathVariable long id) {
-        var mv = new ModelAndView("updateUser");
-        var opt = service.findById(id);
-        if(opt.isPresent()) {
+    @RequestMapping("/profile")
+    public ModelAndView profile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedUsername = authentication.getName();
+        ModelAndView mv = new ModelAndView("updateUser");
+        var opt = service.findByUsername(loggedUsername);
+        if (opt.isPresent()) {
             mv.addObject("user", opt.get());
             return mv;
         }
-        return new ModelAndView("redirect:/user");
+        return new ModelAndView("redirect:/game");
     }
 
-    @DeleteMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         var opt = service.findById(id);
         if(opt.isPresent()) {
             try {
                 service.delete(opt.get());
-                mv.setViewName("redirect:/game");
+                mv.setViewName("redirect:/");
             } catch(DataIntegrityViolationException e) {
                 mv.addObject("error", "Não é possível excluir este usuário porque ele está sendo utilizada em outros registros.");
                 mv.addObject("user", opt.get());
@@ -79,14 +82,48 @@ public class UserController {
     @RequestMapping("/save")
     public ModelAndView insert(@ModelAttribute("user") User user) {
         try {
+            if(!service.isValidEmail(user.getEmail())) {
+                throw new IllegalArgumentException("Formato de email inválido.");
+            }
+
+            if(!service.isValidPassword(user.getPassword())) {
+                throw new IllegalArgumentException("Senha deve conter letras, números e ter no mínimo 8 caracteres.");
+            }
+
             var roleUser = roleRepository.findAll().stream().filter(userRole -> userRole.getCode().equals("ROLE_USER")).findFirst();
             user.setRole(roleUser.get());
             user.setActive(true);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             service.save(user);
             return new ModelAndView("redirect:/");
-        } catch(Exception e) {
+        } catch(IllegalArgumentException e) {
             var mv = new ModelAndView("addUser");
+            mv.addObject("user", user);
+            mv.addObject("error", e.getMessage());
+            return mv;
+        }
+    }
+
+    @PostMapping
+    @RequestMapping("/update")
+    public ModelAndView update(@ModelAttribute("user") User user) {
+        try {
+            if(!service.isValidEmail(user.getEmail())) {
+                throw new IllegalArgumentException("Formato de email inválido.");
+            }
+
+            if(!service.isValidPassword(user.getPassword())) {
+                throw new IllegalArgumentException("Senha deve conter letras, números e ter no mínimo 8 caracteres.");
+            }
+
+            var roleUser = roleRepository.findAll().stream().filter(userRole -> userRole.getCode().equals("ROLE_USER")).findFirst();
+            user.setRole(roleUser.get());
+            user.setActive(true);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            service.save(user);
+            return new ModelAndView("redirect:/game");
+        } catch(IllegalArgumentException e) {
+            var mv = new ModelAndView("updateUser");
             mv.addObject("user", user);
             mv.addObject("error", e.getMessage());
             return mv;
