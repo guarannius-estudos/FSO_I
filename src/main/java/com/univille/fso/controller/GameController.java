@@ -38,6 +38,9 @@ public class GameController {
     public ModelAndView add() {
         var mv = new ModelAndView("addGame");
         mv.addObject("game", new Game());
+        mv.addObject("developers", service.findAllDevelopers());
+        mv.addObject("genres", service.findAllGenres());
+        mv.addObject("ageRanges", service.findAllAgeRanges());
         return mv;
     }
 
@@ -47,6 +50,9 @@ public class GameController {
         var opt = service.findById(id);
         if(opt.isPresent()) {
             mv.addObject("game", opt.get());
+            mv.addObject("developers", service.findAllDevelopers());
+            mv.addObject("genres", service.findAllGenres());
+            mv.addObject("ageRanges", service.findAllAgeRanges());
             return mv;
         }
         return new ModelAndView("redirect:/game");
@@ -82,6 +88,9 @@ public class GameController {
         } catch(Exception e) {
             var mv = new ModelAndView("addGame");
             mv.addObject("game", game);
+            mv.addObject("developers", service.findAllDevelopers());
+            mv.addObject("genres", service.findAllGenres());
+            mv.addObject("ageRanges", service.findAllAgeRanges());
             mv.addObject("error", e.getMessage());
             return mv;
         }
