@@ -30,7 +30,7 @@
             <div class="game-grid">
                 <div th:each="e : ${list}" class="game-card">
                     <div class="game-image">
-                        <img th:src="${e.image != null and !#strings.isEmpty(e.image) ? e.image : 'https://saogabriel.asga.org.br/wp-content/uploads/2024/12/sem-foto.png'}" alt="Imagem do Jogo">
+                        <img th:src="@{/game/image/{id}(id=${e.id})}" alt="Imagem do Jogo">
                     </div>
                     <div class="game-info">
                         <h3 th:text="${e.name}">Nome do Jogo</h3>

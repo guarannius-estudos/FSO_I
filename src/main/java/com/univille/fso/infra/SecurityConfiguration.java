@@ -54,6 +54,7 @@ public class SecurityConfiguration {
             .requestMatchers("/login").permitAll()
             .requestMatchers("/user/add").permitAll()
             .requestMatchers("/user/save").permitAll()
+            .requestMatchers("/game/image/**").permitAll()
             .anyRequest().authenticated()
         )
         .httpBasic(

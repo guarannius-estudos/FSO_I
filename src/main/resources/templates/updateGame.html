@@ -10,7 +10,10 @@
 <body>
     <div class="container">
         <h1>Editar Jogo</h1>
-        <form th:action="@{/game/save}" th:object="${game}" method="post">
+        <form th:action="@{/game/save}" th:object="${game}" method="post" enctype="multipart/form-data">
+            <div class="game-image">
+                <img th:src="@{/game/image/{id}(id=${game.id})}" alt="Imagem do Jogo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </div>
             <div class="form-group">
                 <label for="id">ID:</label>
                 <input readonly type="number" th:field="*{id}">
@@ -49,8 +52,8 @@
                 <input type="number" th:field="*{value}">
             </div>
             <div class="form-group">
-                <label for="image">Imagem:</label>
-                <input type="text" th:field="*{image}">
+                <label for="image">Nova Imagem:</label>
+                <input type="file" name="imageFile" accept="image/*">
             </div>
             <div class="form-group">
                 <button type="submit">Salvar</button>

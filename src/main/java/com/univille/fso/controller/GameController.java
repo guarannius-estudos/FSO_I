@@ -1,13 +1,24 @@
 package com.univille.fso.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.univille.fso.entity.Game;
@@ -79,12 +90,35 @@ public class GameController {
     }
 
     @PostMapping("/save")
-    public ModelAndView insert(@ModelAttribute("game") Game game) {
+    public ModelAndView insert(@ModelAttribute("game") Game game, @RequestParam("imageFile") MultipartFile imageFile) {
         try {
+            if(!imageFile.isEmpty()) {
+                game.setImage(imageFile.getBytes());
+            } else {
+                if (game.getId() > 0) {
+                    var existingGame = service.findById(game.getId());
+                    if(existingGame.isPresent()) {
+                        game.setImage(existingGame.get().getImage());
+                    }
+                } else {
+                    ClassPathResource imgFile = new ClassPathResource("static/img/sem-foto.png");
+                    game.setImage(Files.readAllBytes(imgFile.getFile().toPath()));
+                }
+            }
+
             double valueUSD = service.convertToUSD(game.getValue());
             game.setValueUSD(valueUSD);
             service.save(game);
             return new ModelAndView("redirect:/game");
+
+        } catch(IOException e) {
+            var mv = new ModelAndView("addGame");
+            mv.addObject("error", "Erro ao processar imagem: " + e.getMessage());
+            mv.addObject("game", game);
+            mv.addObject("developers", service.findAllDevelopers());
+            mv.addObject("genres", service.findAllGenres());
+            mv.addObject("ageRanges", service.findAllAgeRanges());
+            return mv;
         } catch(Exception e) {
             var mv = new ModelAndView("addGame");
             mv.addObject("game", game);
@@ -94,5 +128,18 @@ public class GameController {
             mv.addObject("error", e.getMessage());
             return mv;
         }
+    }
+
+    @GetMapping("/image/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getImage(@PathVariable long id) {
+        var opt = service.findById(id);
+        if (opt.isPresent() && opt.get().getImage() != null) {
+            byte[] image = opt.get().getImage();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return new ResponseEntity<>(image, headers, HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

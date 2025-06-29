@@ -9,9 +9,12 @@ body {
     background-color: #202020;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 .container {
@@ -19,6 +22,7 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px #0000001a;
+    margin: auto;
     width: 100%;
     max-width: 500px;
     text-align: center;

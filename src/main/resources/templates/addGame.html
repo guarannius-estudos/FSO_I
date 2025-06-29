@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <h1>Cadastro de Jogo</h1>
-        <form th:action="@{/game/save}" th:object="${game}" method="post">
+        <form th:action="@{/game/save}" th:object="${game}" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Nome do Jogo:</label>
                 <input type="text" th:field="*{name}">
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label for="image">Imagem:</label>
-                <input type="text" th:field="*{image}">
+                <input type="file" name="imageFile" accept="image/*">
             </div>
             <div class="form-group">
                 <button type="submit">Salvar</button>

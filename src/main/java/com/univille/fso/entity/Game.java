@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
@@ -47,5 +48,6 @@ public class Game {
 
     private double valueUSD;
 
-    private String image;
+    @Lob
+    private byte[] image;
 }
