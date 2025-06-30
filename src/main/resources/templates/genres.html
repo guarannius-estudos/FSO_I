@@ -20,13 +20,18 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/1890px-Vector_search_icon.svg.png">
             </button>
         </div>
-        <div class="menu">
-            <a class="addButton" th:href="@{/game}">Jogos</a>
-            <a class="addButton" th:href="@{/developer}">Desenvolvedoras</a>
-            <a class="addButton" th:href="@{/genre}">Gêneros</a>
-            <a class="addButton" th:href="@{/ageRange}">Faixa Etárias</a>
-            <a class="addButton" th:href="@{/user/profile}">Perfil</a>
-            <a class="addButton" href="/logout">Sair</a>
+        <div class="menu-container">
+            <button class="menu-button" onclick="toggleMenu()">
+                <img src="/img/menu.png" alt="Menu">
+            </button>
+            <div class="menu-links" id="menuLinks">
+                <a class="addButton" th:href="@{/game}">Jogos</a>
+                <a class="addButton" th:href="@{/developer}">Desenvolvedoras</a>
+                <a class="addButton" th:href="@{/genre}">Gêneros</a>
+                <a class="addButton" th:href="@{/ageRange}">Faixa Etárias</a>
+                <a class="addButton" th:href="@{/user/profile}">Perfil</a>
+                <a class="addButton" href="/logout">Sair</a>
+            </div>
         </div>
     </header>
     <main>
@@ -44,5 +49,6 @@
         </div>
     </main>
     <script src="/js/search.js"></script>
+    <script src="/js/menu.js"></script>
 </body>
 </html>
